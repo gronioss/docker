@@ -1,4 +1,4 @@
-name: Docker build, test and push image to GitHub Packages
+name: CI/CD and push GitHub Packages
 
 on:
   schedule:
