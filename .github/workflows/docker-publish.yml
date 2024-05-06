@@ -42,6 +42,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
+        id: build-and-push
         uses: docker/build-push-action@v3  # Updated to latest version
         with:
           context: .
@@ -60,5 +61,4 @@ jobs:
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         run: |
-          echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign --yes {}@${{ steps.build-and-push.outputs.digest }}
-
+          echo "${{ steps.build-and-push.outputs.digest }}" | xargs -I {} cosign sign --yes ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@{}
